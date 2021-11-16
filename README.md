@@ -19,11 +19,11 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 * nzs-ansible-1: This is the Ansible host and also runs the web service to host Let's Encrypt challenge files
 * 192.168.126.98: This is the Netscaler management IP
 
-## Playbook Tasks
+## Ansible Playbooks
 
 ### le_renew-cert.yml
 
-* The Let's Encrypt playbook uses the acme_certificate module, https://docs.ansible.com/ansible/latest/collections/community/crypto/acme_certificate_module.html#examples.
+* This Let's Encrypt playbook uses the acme_certificate module, https://docs.ansible.com/ansible/latest/collections/community/crypto/acme_certificate_module.html#examples.
 * With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
 * To test the script, execute it against the Let's Encrypt's staging URL, https://acme-staging-v02.api.letsencrypt.org/directory. You can do this by updating the 'acme_directory' variable.
 
@@ -52,6 +52,9 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 6. Save Netscaler configuration
 
 ### ux_archive-cert.yml
+
+* Archive certificates and private keys for future reference, if required.
+* Without this step, the private key file will be overwritten next time the playbook runs, but the certificate files (.pem) might not be issued due to an error. This can cause a problem as you can end up with a mismatch between the private key and certificate files.
 
 1. Create archive directory
 2. Archive private key

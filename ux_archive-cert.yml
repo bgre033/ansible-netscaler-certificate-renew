@@ -11,7 +11,9 @@
       mode: u=rwx,g=x,o=x
 
   - name: "Archive private key"
+    ignore_errors: yes
     shell: "mv {{ letsencrypt_keys_dir }}/*.key {{ letsencrypt_archive_dir }}/{{ ansible_date_time.iso8601_basic_short }}"
 
   - name: "Archive certificate files"
+    ignore_errors: yes
     shell: "mv {{ letsencrypt_certs_dir }}/*.pem {{ letsencrypt_archive_dir }}/{{ ansible_date_time.iso8601_basic_short }}"
