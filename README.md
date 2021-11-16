@@ -25,6 +25,7 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 
 * The Let's Encrypt playbook uses the acme_certificate module, https://docs.ansible.com/ansible/latest/collections/community/crypto/acme_certificate_module.html#examples.
 * With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
+* To test the script, execute it against the Let's Encrypt's staging URL, https://acme-staging-v02.api.letsencrypt.org/directory. You can do this by updating the 'acme_directory' variable.
 
 1. Start Apache service
 2. Add firewalld rule to allow HTTP inbound
