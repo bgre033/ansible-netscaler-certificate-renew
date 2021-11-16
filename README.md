@@ -1,4 +1,4 @@
-# Netscaler Automated Certificate Renewal with Ansible and Let's Encrypt
+## Netscaler Automated Certificate Renewal with Ansible and Let's Encrypt
 
 This set of Ansible playbooks are designed to automatically acquire a Let's Encrypt certificate and update an existing certificate pair on a Netscaler. By updating a Netscaler certificate it means any services using the certificate are automatically updated too.
 
@@ -21,7 +21,7 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 
 ## Playbook Tasks
 
-# le_renew-cert.yml
+### le_renew-cert.yml
 
 * The Let's Encrypt playbook uses the acme_certificate module, https://docs.ansible.com/ansible/latest/collections/community/crypto/acme_certificate_module.html#examples.
 * With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
@@ -39,7 +39,7 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 11. Remove firewalld rule allowing HTTP
 12. Stop Apache service
 
-# ns_update-cert.yml
+### ns_update-cert.yml
 
 * The Netscaler playbook uses the default Ansible URI module to call Netscaler's API, https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html
 
@@ -50,25 +50,25 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 5. Update Netscaler certificate
 6. Save Netscaler configuration
 
-# ux_archive-cert.yml
+### ux_archive-cert.yml
 
 1. Create archive directory
 2. Archive private key
 3. Archive certificate files
 
-# renew-and-update-cert.yml
+### renew-and-update-cert.yml
 
 * This is the main playbook and it calls the above playbooks in the correct order
 
 ## Execution
 
-# Requirements
+### Requirements
 
 * Ansible host (I used a CentOS 7 server)
 * A web server which can host the challenge files (I used the same server as above)
 * Access to a Netscaler which already has a certificate & key pair installed (a key pair which you will be updating)
 
-# Update Variables
+### Update Variables
 
 1. Update at least the following variables for the host running the web server (nzs-ansible-1). With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
 * acme_email
@@ -83,7 +83,7 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 * certfilepath - Path to the certificate file created by the Let's Encrypt playbook (le_renew-cert.yml). By default this is "/opt/letsencrypt/certs/{{ domain_name }}.pem".
 * keyfilepath - Path to the private key file created by the Let's Encrypt playbook (le_renew-cert.yml). By default this is "/opt/letsencrypt/keys/{{ domain_name }}.key".
 
-# Execute Playbook
+### Execute Playbook
 
 ```
 ansible-playbook ~/ansible-playbooks/renew-and-update-cert.yml --vault-password-file=/root/vault_key
