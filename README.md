@@ -1,4 +1,4 @@
-## Netscaler Automated Certificate Renewal with Ansible and Let's Encrypt
+# Automated Netscaler Certificate Renewals
 
 This set of Ansible playbooks are designed to automatically acquire a Let's Encrypt certificate and update an existing certificate pair on a Netscaler. By updating a Netscaler certificate it means any services using the certificate are automatically updated too.
 
