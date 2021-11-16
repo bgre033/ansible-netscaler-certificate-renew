@@ -71,6 +71,8 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 ### Update Variables
 
 1. Update at least the following variables for the host running the web server (nzs-ansible-1). With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
+* ns_user - Your Netscaler access username
+* ns_pass - Your Netscaler access password (should use Ansible Vault)
 * acme_email
 * domain_name (primary domain name)
 * san_1
