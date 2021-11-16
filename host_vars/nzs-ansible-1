@@ -1,0 +1,16 @@
+---
+acme_challenge_type: http-01
+# acme_directory: https://acme-staging-v02.api.letsencrypt.org/directory
+acme_directory: https://acme-v02.api.letsencrypt.org/directory
+acme_version: 2
+acme_email: hostmaster@domain.com
+letsencrypt_dir: /opt/letsencrypt
+letsencrypt_keys_dir: /opt/letsencrypt/keys
+letsencrypt_csrs_dir: /opt/letsencrypt/csrs
+letsencrypt_certs_dir: /opt/letsencrypt/certs
+letsencrypt_archive_dir: /opt/letsencrypt/archive
+letsencrypt_account_key: /opt/letsencrypt/account/account.key
+domain_name: www.domain.com
+san_1: vpn.domain.com
+san_2: remote.domain.com
+http_root_directory: /var/www/html

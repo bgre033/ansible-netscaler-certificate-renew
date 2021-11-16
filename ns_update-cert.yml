@@ -1,0 +1,88 @@
+---
+- hosts: 192.168.126.98
+  gather_facts: false
+  tasks:
+
+  - name: "Delete Old Certificate File"
+    ignore_errors: yes
+    delegate_to: localhost
+    uri:
+      url: "https://{{inventory_hostname}}/nitro/v1/config/systemfile?args=filename:{{ certfilename }},filelocation:{{ nscertlocation | replace('/','%2F') }}"
+      validate_certs: no
+      method: DELETE
+      status_code: 200
+      return_content: yes
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+
+  - name: "Delete Old Key File"
+    ignore_errors: yes
+    delegate_to: localhost
+    uri:
+      url: "https://{{inventory_hostname}}/nitro/v1/config/systemfile?args=filename:{{ keyfilename }},filelocation:{{ nscertlocation | replace('/','%2F') }}"
+      validate_certs: no
+      method: DELETE
+      status_code: 200
+      return_content: yes
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+
+  - name: "Upload New Certificate File"
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/systemfile
+      validate_certs: no
+      method: POST
+      status_code: 201
+      return_content: yes
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body:
+        systemfile:
+          filename: "{{ certfilename }}"
+          filecontent: "{{ lookup('file', certfilepath) | b64encode }}"
+          filelocation: "{{ nscertlocation }}"
+
+  - name: "Upload New Key File"
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/systemfile
+      validate_certs: no
+      method: POST
+      status_code: 201
+      return_content: yes
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body:
+        systemfile:
+          filename: "{{ keyfilename }}"
+          filecontent: "{{ lookup('file', keyfilepath) | b64encode }}"
+          filelocation: "{{ nscertlocation }}"
+
+  - name: "Update NS Certificate"
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/sslcertkey?action=update
+      validate_certs: no
+      method: POST
+      return_content: yes
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body: { "sslcertkey": { "certkey": "{{ certtoupdate }}", "cert": "{{ certfilename }}", "key": "{{ keyfilename }}" } }
+
+  - name: "Save NS Configuration"
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/nsconfig?action=save
+      validate_certs: no
+      method: POST
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body:
+        nsconfig: {}

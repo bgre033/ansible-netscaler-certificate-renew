@@ -1,0 +1,10 @@
+---
+ansible_python_interpreter: "python"
+ns_user: "nsroot"
+ns_pass: ...
+nscertlocation: "/nsconfig/ssl"
+certtoupdate: "netscaler-certificate-and-private-key-pair-name"
+certfilename: "www.domain.com.pem"
+keyfilename: "www.domain.com.key"
+certfilepath: "/opt/letsencrypt/certs/www.domain.com.pem"
+keyfilepath: "/opt/letsencrypt/keys/www.domain.com.key"

@@ -1,0 +1,17 @@
+---
+- hosts: "nzs-ansible-1"
+  gather_facts: true
+  tasks:
+  - name: "Create archive directory in /opt/letsencrypt"
+    file:
+      path: "/opt/letsencrypt/archive/{{ ansible_date_time.iso8601_basic_short }}"
+      state: directory
+      owner: root
+      group: root
+      mode: u=rwx,g=x,o=x
+
+  - name: "Archive private key"
+    shell: "mv {{ letsencrypt_keys_dir }}/*.key {{ letsencrypt_archive_dir }}/{{ ansible_date_time.iso8601_basic_short }}"
+
+  - name: "Archive certificate files"
+    shell: "mv {{ letsencrypt_certs_dir }}/*.pem {{ letsencrypt_archive_dir }}/{{ ansible_date_time.iso8601_basic_short }}"
