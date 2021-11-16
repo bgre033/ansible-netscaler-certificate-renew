@@ -74,10 +74,11 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 1. Update at least the following variables for the host running the web server (nzs-ansible-1). With the configuration as it is, the playbook is designed to issue a single certificate with 3 SANs. To adjust this you will need to modify the 'san_#' variables in 'nzs-ansible-1' and line #39 in le_renew-cert.yml.
 * ns_user - Your Netscaler access username
 * ns_pass - Your Netscaler access password (should use Ansible Vault)
-* acme_email
-* domain_name (primary domain name)
-* san_1
-* san_2
+* acme_email - Notification email address for certificate renewals
+* domain_name - Primary domain name
+* san_1 - SAN 1
+* san_2 - SAN 2
+* http_root_directory - The root directory of your web server where challenge files will be hosted
 
 2. Update the following variables for the Netscaler host (192.168.126.98).
 * certtoupdate - Name of the certificate & key pair on the Netscaler
@@ -90,4 +91,12 @@ This Let's Encrypt module (le_renew-cert.yml) largely uses the script by Jamie S
 
 ```
 ansible-playbook ~/ansible-playbooks/renew-and-update-cert.yml --vault-password-file=/root/vault_key
+```
+
+### Scheduled Execution (via a Cron job)
+
+Run the playbook at 1.15pm on every 2nd of the month.
+
+```
+15 13 2 * * ansible-playbook /root/ansible-playbooks/renew-and-update-cert.yml --vault-password-file=/root/vault_key
 ```
